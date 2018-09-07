@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Paperjs - OpenTypejs</title>
+</head>
+<body>
+<script>
+var path = font.getPath('Hello, World!', 0, 150, 72);
+// If you just want to draw the text you can also use font.draw(ctx, text, x, y, fontSize).
+//path.draw(ctx);
+var svg = path.toSVG(2);
+console.log(svg);
+</script>
+</body>

@@ -6,7 +6,7 @@
 		<script type="text/javascript" src="js/d3.js"></script>
 		<script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
 		<style type="text/css">
-			/* No style rules here yet */
+
 		</style>
 	</head>
 	<body>
@@ -26,7 +26,7 @@
 			function popGrid () {
 						for (var i = 0; i < 2500; i ++) {
 							newCoord = [((i%100)*10)+5, (Math.floor(i / 100)*10)+5];
-							letters.push(newCoord);
+							gridCoord.push(newCoord);
 						};
 			};
 
@@ -34,8 +34,14 @@
 			var svg = d3.select("body")
 						.append("svg")
 						.attr("width", w)
-						.attr("height", h)
-						.attr("filter", "url(#blur)");
+						.attr("height", h);
+
+
+			var blurGroup = svg.append("g")
+			.attr("filter", "url(#blur)");
+
+			var gridGroup = svg.append("g");
+
 
 			var xScale = d3.scaleLinear()
 						.domain([0,d3.max(letters, function(d) {return Math.round(d[0])})])
@@ -46,7 +52,7 @@
 						.range([0,h]);
 
 
-			var filter = svg.append("defs")
+			var filter = blurGroup.append("defs")
 	  		.append("filter")
 	    	.attr("id", "blur")
 	  		.append("feGaussianBlur")
@@ -62,7 +68,7 @@
 
 			popGrid();
 			//Draw circles
-			var grid = svg.selectAll("circle")
+			var grid = gridGroup.selectAll("circle")
 				.data(letters)
 				.enter()
 				.append("circle")
@@ -72,34 +78,106 @@
 				.attr("cy", function(d) {
 					 return yScale(d[1]);
 				})
-				.attr("r", w/600);
+				.attr("r", w/600)
+				.attr("clip-path", "url(#ellipse-clip)");
+
+
+				var text = blurGroup.selectAll("circle")
+					.data(letters)
+					.enter()
+					.append("circle")
+					.attr("cx", function(d) {
+						 return xScale(d[0]);
+					})
+					.attr("cy", function(d) {
+						 return yScale(d[1]);
+					})
+					.attr("r", w/600);
+
+
+					svg.append("clipPath")       // define a clip path
+						.attr("id", "ellipse-clip") // give the clipPath an ID
+					.append("circle")          // shape it as an ellipse
+						.attr("id", "circle-clip")
+						.attr("cx", 175)         // position the x-centre
+						.attr("cy", 100)         // position the y-centre
+						.attr("r", 100);         // set the x radius
+
+					// svg.on("mousemove", function() {
+					//   x = xScale.invert(d3.mouse(this)[0] - 50);
+					//   y = yScale.invert(d3.mouse(this)[1] - 10);
+					// 		svg.select("clipPath")       // define a clip path
+					// 			.attr("id", "ellipse-clip") // give the clipPath an ID
+					// 		.append("ellipse")          // shape it as an ellipse
+					// 			.attr("cx", 175)         // position the x-centre
+					// 			.attr("cy", 100)         // position the y-centre
+					// 			.attr("rx", 100)         // set the x radius
+					// 			.attr("ry", 50)         // set the y radius
+					// 			.attr("transform", "translate(" + x + "," + y + ")")
+					// 			console.log(x);
+					// 						});
+
+
+					// define the clipPath
+					var x = 100;
+					var y = 100;
+					svg.on("mousemove" , function(){
+						var x = d3.mouse(this)[0];
+						 var y = d3.mouse(this)[1];
+						 svg.select("#circle-clip")
+						 .attr('cx', x)
+						 .attr('cy', y)
+
+						 console.log(x);
+					});
+
+				// draw clipped path on the screen
+				// var x = 100;
+				// var y = 100;
+				// svg.on("mousemove" , function(){
+				// 	var x = d3.mouse(this)[0];
+				// 	 var y = d3.mouse(this)[1];
+				// 	 svg.select("rect")
+				// 	 .attr("x", x)        // position the left of the rectangle
+				// 	 .attr("y", y)         // position the top of the rectangle
+				// 	 console.log(x);
+				// });
+				// svg.append("rect")        // attach a rectangle
+				// 		.attr("id", "test-rect")
+				//     .attr("x", x)        // position the left of the rectangle
+				//     .attr("y", y)         // position the top of the rectangle
+				//     .style("fill", "black")   // fill the clipped path with grey
+				//     .attr("height", 100)    // set the height
+				//     .attr("width", 200)   // set the width
+
 
 				function blur() {
-					filter.attr("stdDeviation", this.value / 5);
-				}
+						filter.attr("stdDeviation", this.value / 5);
+						console.log(					filter.attr("stdDeviation", this.value / 5))
+					}
+
+			//
+			// //For testing click to start animation
+	   	// 	var move = d3.select("p")
+		  //  					.on("click", function() {
+		  //  					popGrid ()
+			// 					var combine = gridCoord.concat(letters);
+			// 					var circle = .selectAll("circle")
+			// 					   .data(gridCoord)
+			// 					   .enter()
+			// 					   .append("circle")
+			// 					   .attr("cx", function(d) {
+			// 					   		return xScale(d[0]);
+			// 					   })
+			// 					   .attr("cy", function(d) {
+			// 					   		return yScale(d[1]);
+			// 					   })
+			// 					   .attr("r", w/600);
+			//
+		  //  					console.log("clicked");
 
 
 
-			//For testing click to start animation
-	   		var move = d3.select("p")
-		   					.on("click", function() {
-		   					popGrid ()
-								var combine = gridCoord.concat(letters);
-								var circle = svg.selectAll("circle")
-								   .data(gridCoord)
-								   .enter()
-								   .append("circle")
-								   .attr("cx", function(d) {
-								   		return xScale(d[0]);
-								   })
-								   .attr("cy", function(d) {
-								   		return yScale(d[1]);
-								   })
-								   .attr("r", w/600);
-
-		   					console.log("clicked");
-
-		 		  			});
 
 		</script>
 	</body>

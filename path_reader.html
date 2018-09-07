@@ -30,6 +30,7 @@ var opac = 0.2;
 var colors = ["deepskyblue", "orangered", "mediumseagreen", "deeppink"]
 // var colors = ["deepskyblue"]
 var getColor = colors[getRandomIntInclusive(0, colors.length - 1)];
+
 var line5 = d3.line()
 	// .curve(d3.curveLinear)
 	// .curve(d3.curveStep)
@@ -46,14 +47,14 @@ var line5 = d3.line()
     .y(function(d) { return d[1]; });
 
 var line3 = d3.line()
-  .curve(d3.curveStep)
-  // .curve(d3.curveBasis)
+  // .curve(d3.curveStep)
+  .curve(d3.curveBasis)
     .x(function(d) { return d[0]; })
     .y(function(d) { return d[1]; });
 
 var line = d3.line()
-  .curve(d3.curveStep)
-  // .curve(d3.curveBasis)
+  // .curve(d3.curveStep)
+  .curve(d3.curveBasis)
     .x(function(d) { return d[0]; })
     .y(function(d) { return d[1]; });
 
@@ -62,29 +63,34 @@ var svg = d3.select("body")
         .attr("width", width)
         .attr("height", height);
 
-// for (var i=0; i < testdatae.length; i++) {
+function wiggleData () {
+        newNumber = [Math.round(letters[i][0] + (Math.random() * 15)), Math.round(letters[i][1] + (Math.random() * 15))];
+        letters[i] = newNumber;
+        console.log("new data generated")
+};
 
-for (var i = 0; i < letters.length; i++) {
-  var attributee;
-  if (i == 4) {attributee = "white"; filll = 0.8}
-  else if (i == 8) {attributee = "white"; filll = 0.8}
-  else {attributee = getColor; filll = opac}
-  selections5[i] = svg.append("path")
-      .data([letters[i]])
-      .attr("fill", attributee)
-      .attr("fill-opacity", filll)
-      .attr("d", line5);
-  selections3[i] = svg.append("path")
-      .data([letters[i]])
-      .attr("fill", attributee)
-      .attr("fill-opacity", filll - 0.1)
-      .attr("d", line3);
-  selections1[i] = svg.append("path")
-      .data([letters[i]])
-      .attr("fill", attributee)
-      .attr("fill-opacity", filll - 0.05)
-      .attr("d", line);
-  }
+
+// for (var i=0; i < testdatae.length; i++) {
+for (var s = 0; s < 10; s++){
+      for (var i = 0; i < letters.length; i++) {
+
+        var attributee;
+        if (i == 4) {attributee = "white"; filll = 0.8}
+        else if (i == 8) {attributee = "white"; filll = 0.8}
+        else {attributee = getColor; filll = opac}
+        selections1[i] = svg.append("path")
+            .data([letters[i]])
+            .attr("fill", "none")
+            // .attr("fill-opacity", filll - 0.05)
+            .attr("stroke", "black")
+            .attr("d", line);
+            wiggleData();
+
+
+      };
+
+  };
+
 
 // function anim(){
 //   for (var i = 0; i < letters.length; i++) {

@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <title>UNCERTAINTY OUTLINE</title>
     <script type="text/javascript" src="js/d3.js"></script>
-		<script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
-    <script src = "http://d3js.org/d3.v4.min.js"></script>
-    <!-- <script src = "d3-transform.js"></script> -->
-</head>
+		<script src="https://d3js.org/d3-selection-multi.v1.min.js"></script></head>
 <body>
 <script>
 // http://bl.ocks.org/nategood/2d5d7537597e340f968d
@@ -55,69 +52,30 @@ var getColor = colors[getRandomIntInclusive(0, colors.length - 1)];
 //   // .curve(d3.curveBasis)
 //     .x(function(d) { return d[0] + randn_bm() * 3; })
 //     .y(function(d) { return d[1] + randn_bm() * 3; });
+  var line = d3.line()
+    .curve(d3.curveBasis)
+    .x(function(d) { return d[0] + randn_bm() * movementFactor; })
+    .y(function(d) { return d[1] + randn_bm() * movementFactor; });
 
-  var lines = [];
+    
 
-  // lines[0] = d3.line()
-  //   .curve(d3.curveBasis)
-  //   .x(function(d) { return d[0]; })
-  //   .y(function(d) { return d[1]; });
-  var lettersRand = [];
-
-function popRand(){
-  for (var i = 1; i < 11; i++) {
-    lettersRand[i] = randn_bm();
-  };
-};
-popRand();
-
-function createLines(){
-
-
-  for (var i = 1; i < 11; i++) {
-    var current = lettersRand[i];
-    console.log(current);
-    lines[i] = d3.line()
-      .curve(d3.curveBasis)
-      .x(function(d) { return d[0] + current * 10; })
-      .y(function(d) { return d[1] + movementFactor; });
-  }
-  // for (var i = 0; i < 10; i++) {
-  //     lines[i] = d3.line()
-  //       .curve(d3.curveBasis)
-  //       .x(function(d) { return d[0] + randn_bm() * movementFactor; })
-  //       .y(function(d) { return d[1] + randn_bm() * movementFactor; });
-  //   }
-  return lines;
-};
 var svg = d3.select("body")
     .append("svg")
         .attr("width", width)
         .attr("height", height);
+
 // for (var i=0; i < testdatae.length; i++) {
-createLines();
+for (var h = 0; h < 10; h++) {
 
-var g = svg.append("g")
-  .attr("transform", "translate(00)");
-
-function drawLines(){
-  for (var h = 0; h < 11; h++) {
-
-    for (var i = 0; i < letters.length; i++) {
-      selections1[h] = g.append("path")
-          .data([letters[i]])
-          .attr("id", h)
-          .attr("stroke-width", 1)
-          .attr("stroke","black")
-          .attr("fill", "none")
-          .attr("d", lines[h])
-          // .attr("transform", "translate("+i*-40+") scale("+(1+ (i*.1))+")" );
-
-      }
-  };
+for (var i = 0; i < letters.length; i++) {
+  selections1 = svg.append("path")
+      .data([letters[i]])
+      .attr("stroke-width", .2)
+      .attr("stroke","black")
+      .attr("fill", "none")
+      .attr("d", line);
+  }
 };
-
-drawLines();
 //
 // function anim(){
 //   for (var i = 0; i < letters.length; i++) {

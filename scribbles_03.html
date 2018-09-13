@@ -75,12 +75,10 @@ function createLines(){
 
 
   for (var i = 1; i < 11; i++) {
-    var current = lettersRand[i];
-    console.log(current);
     lines[i] = d3.line()
       .curve(d3.curveBasis)
-      .x(function(d) { return d[0] + current * 10; })
-      .y(function(d) { return d[1] + movementFactor; });
+      .x(function(d) { return d[0] + 0 * movementFactor; })
+      .y(function(d) { return d[1] + randn_bm() * movementFactor; });
   }
   // for (var i = 0; i < 10; i++) {
   //     lines[i] = d3.line()

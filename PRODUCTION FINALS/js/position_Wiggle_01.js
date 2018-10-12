@@ -1,16 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>UNCERTAINTY POSITION</title>
-		<script type="text/javascript" src="js/d3.js"></script>
-		<!-- <script src="https://d3js.org/d3-selection-multi.v1.min.js"></script> -->
-		<style type="text/css">
-			/* No style rules here yet */
-		</style>
-	</head>
-	<body>
-		<script type="text/javascript">
 
 			//Width and height
 			var w = window.innerWidth;
@@ -104,7 +91,6 @@
 
 				//Attempt to delay transition in order to loop
 			function myTransf() {
-					console.log("myTransf ran")
 					//Generate new data
 					wiggleData();
 					setInterval(movement(), 2000)
@@ -122,10 +108,3 @@
 								return yScale(d[1]);
 							});
 				}
-
-
-
-
-		</script>
-	</body>
-</html>

@@ -1,10 +1,12 @@
 
 			//Width and height
-			var w = window.innerWidth;
-			var h = w/4;
+			// var w = window.innerWidth;
+			// var h = w/4;
+			var w = 1024;
+			var h = 256;
 
 			//Margins
-			var marginSize = .15;
+			var marginSize = .05;
 			var wMargin = w*marginSize;
 			var hMargin = h*marginSize;
 
@@ -22,10 +24,14 @@
 
 
 			//Create SVG element
-			var svg = d3.select("body")
+			var svg = d3.select("#d3Here")
 						.append("svg")
-						.attr("width", w)
-						.attr("height", h);
+						// .attr("width", w)
+						// .attr("height", h)
+                      .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "0 0 1024 256");
+
+						;
 
 			//Scaling mechanism to fit to page
 			var xScale = d3.scaleLinear()
